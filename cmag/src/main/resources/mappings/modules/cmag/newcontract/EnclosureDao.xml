@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.coolshow.jeesite.modules.cmag.newcontract.dao.IEnclosureDao">
+
+	<resultMap type="Enclosure" id="enclosureResult">
+		<result property="enclosure_id" column="enclosure_id"/>
+		<result property="path" column="path"/>
+		<result property="name" column="name"/>
+		<result property="create_user" column="create_user"/>
+		<result property="upload_time" column="upload_time"/>
+		<result property="flag" column="flag"/>
+	</resultMap>
+
+	<sql id="enclosureColumns">
+		enclosure_id,
+		path,
+		name,
+		create_user,
+		upload_time,
+		flag
+	</sql>
+	
+	<!-- 插入 -->
+	<insert id="insert" useGeneratedKeys="true" keyColumn="id">
+		INSERT INTO cmag_enclosureinfo(
+			enclosure_id,
+			path,
+			name,
+			create_user,
+			upload_time,
+			flag
+		)VALUES(
+			#{enclosure_id},
+			#{path},
+			#{name},
+			#{create_user},
+			#{upload_time},
+			#{flag}
+		)
+	</insert>
+	
+	<!-- 获取单条记录 -->
+	<select id="get" resultMap="enclosureResult" useCache="true">
+		SELECT 
+			 <include refid="enclosureColumns"/>
+		FROM cmag_enclosureinfo WHERE 1=1
+		<if test="enclosure_id != null and enclosure_id != ''">
+			AND enclosure_id = #{enclosure_id}
+		</if>
+		<if test="flag != null and flag != ''">
+			AND flag = #{flag}
+		</if>	 
+	</select>
+	
+	<!-- 批量插入扫描件信息 -->
+	<insert id="insertList" useGeneratedKeys="true" keyColumn="id" parameterType="java.util.List">
+		INSERT INTO cmag_enclosureinfo( enclosure_id, path,name,create_user,upload_time,flag) 
+		VALUES 
+		<foreach collection="list" item="scanning" index="index" separator=",">
+			(#{scanning.enclosure_id},#{scanning.path},#{scanning.name},#{scanning.create_user},#{scanning.upload_time},#{scanning.flag})
+		</foreach>
+	</insert>
+	
+	<!-- 分页查询附件信息 -->
+	<select id="findList" resultMap="enclosureResult">
+		SELECT
+			<include refid="enclosureColumns"/>
+		FROM cmag_enclosureinfo
+		<if test="enclosure_id != null and enclosure_id != ''">
+			WHERE enclosure_id = #{enclosure_id}
+		</if>
+		<if test="flag != null and flag != ''">
+			AND flag = #{flag}
+		</if>
+	</select>
+	
+	<!-- 根据附件id和附件状态查询记录总数 -->
+	<select id="findEnclosureCount" resultType="long">
+		SELECT COUNT(1)
+		FROM cmag_enclosureinfo
+		<if test="enclosure_id != null and enclosure_id != ''">
+			WHERE enclosure_id = #{enclosure_id}
+		</if>
+		<if test="flag != null and flag != ''">
+			AND flag = #{flag}
+		</if>
+	</select>
+	
+	<!-- 根据附件id和flag标识 01：附件  02 ：扫描件 更新附件信息 -->
+	<update id="update">
+		UPDATE cmag_enclosureinfo SET
+			path = #{path},
+			name = #{name},
+			create_user = #{create_user},
+			upload_time = #{upload_time}
+		<if test="enclosure_id != null and enclosure_id != ''">
+			WHERE enclosure_id = #{enclosure_id}
+		</if>
+		<if test="flag != null and flag != ''">
+			AND flag = #{flag}
+		</if>	
+	</update>
+</mapper>

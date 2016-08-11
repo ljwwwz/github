@@ -1,0 +1,751 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.coolshow.jeesite.modules.cmag.newcontract.dao.IContractDataDao">
+
+	<resultMap type="Contract" id="contractResult">
+		<result property="contract_no" column="contract_no"/>
+		<result property="old_contract_no" column="contract_no"/>
+		<result property="contract_name" column="contract_name"/>
+		<result property="firstParty" column="firstParty"/>
+		<result property="secondParty" column="secondParty"/>
+		<result property="qdr" column="qdr"/>
+		<result property="qd_date" column="qd_date"/>
+		<result property="contract_type_dm" column="contract_type_dm"/>
+		<result property="begin_date" column="begin_date"/>
+		<result property="end_date" column="end_date"/>
+		<result property="enclosure_id" column="enclosure_id"/>
+		<result property="ss_area" column="ss_area"/>
+		<result property="remarks" column="remarks"/>
+		<result property="state_id" column="state_id"/>
+		<result property="user_id" column="user_id"/>
+		<result property="create_time" column="create_time"/>
+		<result property="create_user" column="create_user"/>
+		<result property="modify_time" column="modify_time"/>
+		<result property="modify_user" column="modify_user"/>
+		<result property="firstPartyName" column="firstPartyName"/>
+		<result property="secondPartyName" column="secondPartyName"/>
+		<result property="qdrName" column="qdrName"/>
+		<result property="area_id" column="area_id"/>
+		<result property="custodian" column="custodian"/>
+		<result property="receipt_time"   column="receipt_time" />
+		<result property="original_file"  column="original_file"/>
+		<result property="copies"         column="copies"       />
+		<result property="original_code"  column="original_code"/>
+		<result property="scan_version"   column="scan_version" />
+		<result property="contract_no_name" column="contract_no_name" />
+		<result property="remind_state" column="remind_state" />
+		<result property="history_conNo" column="history_conNo"/>
+		<result property="mail_address" column="mail_address"/>
+		<result property="street_info" column="street_info"></result>
+		<!--association:用于映射关联查询单个对象的信息 property:要将关联查询的用户信息映射到 中那个属性-->
+		<association property="supplier" javaType="com.coolshow.jeesite.modules.cmag.newcontract.entity.Supplier">
+			<!-- id:关联查询用户的唯一标识  column:指定唯一标识用户信息的列  property:映射到 的那个属性  -->
+			<id property="contract_no" column="contract_no"/>
+			<result property="supplier_no" column="supplier_no"/>
+			<result property="supplier_type" column="supplier_type"/>
+			<result property="scenicspot_name" column="scenicspot_name"/>
+			<result property="receipt_account" column="receipt_account"/>
+			<result property="phone" column="phone"/>
+			<result property="payment_info" column="payment_info"/>
+			<result property="use_system" column="use_system"/>
+			<result property="bail" column="bail"/>
+			<result property="checking_period" column="checking_period"/>
+			<result property="checking_date" column="checking_date"/>
+			<result property="payment_date" column="payment_date"/>
+			<result property="billing_info" column="billing_info"/>
+			<result property="prepaid_balance" column="prepaid_balance"/>
+			<result property="rebate" column="rebate"/>
+			<result property="supplier_account" column="supplier_account"/>
+			<result property="ss_site" column="ss_site"/>
+			<result property="rebate_way" column="rebate_way"/>
+			<result property="create_user" column="create_user"/>
+			<result property="create_time" column="create_time"/>
+			<result property="modify_user" column="modify_user"/>
+			<result property="modify_time" column="modify_time"/>
+			<result property="supplier_contractor" column="supplier_contractor"/>
+			<result property="contractor_phone" column="contractor_phone"/>
+			<result property="supplier_add" column="supplier_add"/>
+			<result property="account_type" column="account_type"/>
+			<result property="deposit_bank" column="deposit_bank"/>
+			<result property="account_number" column="account_number"/>
+			<result property="account_name" column="account_name"/>
+			<result property="emergency_level" column="emergency_level"/>
+			<result property="confirm_statement" column="confirm_statement"/>
+			<result property="taxpayer_scale" column="taxpayer_scale"/>
+			<result property="tariff" column="tariff"/>
+			<result property="bail_state" column="bail_state"/>
+			<result property="verify_date" column="verify_date"/>
+		</association>
+		<association property="distributor" javaType="com.coolshow.jeesite.modules.cmag.newcontract.entity.Distributor">
+			<id property="contract_no" column="contract_no"/>
+			<result property="distributor_no" column="distributor_no"/>
+			<result property="level" column="level"/>
+			<result property="bail" column="bail"/>
+			<result property="year_quantity" column="year_quantity"/>
+			<result property="settlement_way" column="settlement_way"/>
+			<result property="coolshow_account" column="coolshow_account"/>
+			<result property="distributor_contractor" column="distributor_contractor"/>
+			<result property="phone" column="phone"/>
+			<result property="payment_way" column="payment_way"/>
+			<result property="payment_date" column="payment_date"/>
+			<result property="checking_period" column="checking_period"/>
+			<result property="use_system" column="use_system"/>
+			<result property="checking_date" column="checking_date"/>
+			<result property="billing_info" column="billing_info"/>
+			<result property="prepaid_balance" column="prepaid_balance"/>
+			<result property="rebate" column="rebate"/>
+			<result property="ss_site" column="ss_site"/>
+			<result property="rebate_way" column="rebate_way"/>
+			<result property="create_user" column="create_user"/>
+			<result property="create_time" column="create_time"/>
+			<result property="modify_user" column="modify_user"/>
+			<result property="modify_time" column="modify_time"/>
+			<result property="distributor_account" column="distributor_account"/>
+			<result property="deposit_bank" column="deposit_bank"/>
+			<result property="account_number" column="account_number"/>
+			<result property="account_name" column="account_name" />
+			<result property="protocol_type" column="protocol_type"/>
+			<result property="advance" column="advance" />
+		</association>
+		<association property="other" javaType="com.coolshow.jeesite.modules.cmag.newcontract.entity.Other">
+			<id property="contract_no" column="contract_no"/>
+			<result property="name" column="name"/>
+			<result property="code" column="code"/>
+		</association>
+		<!-- 一对多的关系 -->
+		<!-- property: 指的是集合属性的值, ofType：指的是集合中元素的类型 -->
+		<collection property="contractWarns" column="warn_contractNo" javaType="java.util.ArrayList" ofType="com.coolshow.jeesite.modules.cmag.conWarn.entity.ContractWarn">
+			<result property="warn_id" column="warn_id" javaType="String" jdbcType="INTEGER"/>
+			<result property="remind_content" column="remind_content"/>
+			<result property="remind_time" column="remind_time"/>
+			<result property="remind_person" column="remind_person"/>
+			<result property="remind_name" column="remind_name"/>
+		</collection>
+	</resultMap>
+
+	<sql id="sqlColumns">
+		contract_no,
+		contract_name,
+		firstParty,
+		firstPartyName,
+		secondParty,
+		secondPartyName,
+		qdr,
+		qdrName,
+		qd_date,
+		contract_type_dm,
+		enclosure_id,
+		ss_area,
+		remarks,
+		state_id,
+		user_id,
+		create_user,
+		DATE_FORMAT(create_time,'%Y-%m-%d') AS create_time,
+		modify_user,
+		DATE_FORMAT(modify_time,'%Y-%m-%d') AS modify_time,
+		area_id,
+		custodian,
+		DATE_FORMAT(receipt_time,'%Y-%m-%d') AS receipt_time,
+		original_file,
+		copies,
+		original_code,
+		scan_version,
+		contract_no_name,
+		history_conNo,
+		mail_address,
+		street_info
+	</sql>
+	
+	<sql id="sqlColumn1">
+		contract_no,
+		contract_name,
+		firstParty,
+		firstPartyName,
+		secondParty,
+		secondPartyName,
+		qdr,
+		qdrName,
+		qd_date,
+		contract_type_dm,
+		enclosure_id,
+		ss_area,
+		remarks,
+		state_id,
+		user_id,
+		create_user,
+		DATE_FORMAT(create_time,'%Y-%m-%d') AS create_time,
+		modify_user,
+		DATE_FORMAT(modify_time,'%Y-%m-%d') AS modify_time,
+		area_id,
+		custodian,
+		DATE_FORMAT(receipt_time,'%Y-%m-%d') AS receipt_time,
+		original_file,
+		copies,
+		original_code,
+		scan_version,
+		contract_no_name,
+		begin_date,
+		end_date,
+		remind_state,
+		history_conNo,
+		mail_address,
+		street_info
+	</sql>
+
+	<sql id="contractColumns">
+		a.contract_no,
+		a.contract_name,
+		a.firstParty,
+		a.firstPartyName,
+		a.secondParty,
+		a.secondPartyName,
+		a.qdr,
+		a.qdrName,
+		DATE_FORMAT(a.qd_date,'%Y-%m-%d') AS qd_date,
+		a.contract_type_dm,
+		DATE_FORMAT(a.begin_date,'%Y-%m-%d') AS begin_date,
+		DATE_FORMAT(a.end_date,'%Y-%m-%d') AS end_date,
+		a.enclosure_id,
+		a.ss_area,
+		a.remarks,
+		a.state_id,
+		a.user_id,
+		a.create_user,
+		DATE_FORMAT(a.create_time,'%Y-%m-%d') AS create_time,
+		a.modify_user,
+		DATE_FORMAT(a.modify_time,'%Y-%m-%d') AS modify_time,
+		a.area_id,
+		a.custodian,
+		DATE_FORMAT(a.receipt_time,'%Y-%m-%d') AS receipt_time,
+		a.original_file,
+		a.copies,
+		a.original_code,
+		a.scan_version,
+		a.contract_no_name,
+		a.history_conNo,
+		a.mail_address,
+		a.street_info,
+	</sql>
+
+	<sql id="distributorColumns">
+		b.contract_no,
+		b.distributor_no,
+		b.level,
+		b.bail,
+		b.year_quantity,
+		b.settlement_way,
+		b.coolshow_account,
+		b.distributor_contractor,
+		b.phone,
+		b.payment_way,
+		DATE_FORMAT(b.payment_date,'%Y-%m-%d') AS payment_date,
+		b.checking_period,
+		b.use_system,
+		DATE_FORMAT(b.checking_date,'%Y-%m-%d') AS checking_date,
+		b.billing_info,
+		b.prepaid_balance,
+		b.rebate,
+		b.ss_site,
+		b.rebate_way,
+		b.create_user,
+		DATE_FORMAT(b.create_time,'%Y-%m-%d') AS create_time,
+		b.modify_user,
+		DATE_FORMAT(b.modify_time,'%Y-%m-%d') AS modify_time,
+		b.distributor_account,
+		b.deposit_bank,
+		b.account_number,
+		b.account_name,
+		b.protocol_type,
+		b.advance
+	</sql>
+
+	<sql id="supplierColumns">
+		c.contract_no,
+		c.supplier_no,
+		c.supplier_type,
+		c.scenicspot_name,
+		c.receipt_account,
+		c.phone,
+		c.payment_info,
+		c.use_system,
+		c.bail,
+		c.checking_period,
+		DATE_FORMAT(c.checking_date,'%Y-%m-%d') AS checking_date,
+		DATE_FORMAT(c.payment_date,'%Y-%m-%d') AS payment_date,
+		c.billing_info,
+		c.prepaid_balance,
+		c.rebate,
+		c.supplier_account,
+		c.ss_site,
+		c.rebate_way,
+		c.create_user,
+		DATE_FORMAT(c.create_time,'%Y-%m-%d') AS create_time,
+		c.modify_user,
+		DATE_FORMAT(c.modify_time,'%Y-%m-%d') AS modify_time,
+		c.supplier_contractor,
+		c.contractor_phone,
+		c.supplier_add,
+		c.account_type,
+		c.deposit_bank,
+		c.account_number,
+		c.account_name,
+		c.emergency_level,
+		c.confirm_statement,
+		c.taxpayer_scale,
+		c.tariff,
+		c.bail_state,
+		DATE_FORMAT(c.verify_date,'%Y-%m-%d') AS verify_date
+	</sql>
+	
+	<sql id="OtherColumns">
+		c.name,
+		c.code,
+		c.contract_no
+	</sql>
+	
+	<sql id="contractDistributorJoins">
+		JOIN cmag_distributorcontractinfo b  ON a.contract_no = b.contract_no AND
+	</sql>
+	
+	<sql id="contractSupplierJoins">
+		JOIN cmag_suppliercontractinfo c  ON a.contract_no = c.contract_no AND
+	</sql>
+	<sql id="contractOtherJoins">
+		JOIN cmag_otherbaseinfo c  ON a.contract_no = c.contract_no AND
+	</sql>
+
+	<!-- 查询详细的合同信息 -->
+	<select id="findContractInfo" resultMap="contractResult">
+	    SELECT
+	    	 <include refid="contractColumns"/>
+	    <if test="contract_type_dm !=null and contract_type_dm != '' and contract_type_dm == 01">
+			<include refid="supplierColumns"/>
+		</if>
+		<if test="contract_type_dm !=null and contract_type_dm != '' and contract_type_dm == 02">
+			<include refid="distributorColumns"/>
+		</if>
+		<if test="contract_type_dm !=null and contract_type_dm != '' and contract_type_dm == 03">
+			<include refid="OtherColumns"/>
+		</if>		 
+	    FROM cmag_contractbserinfo a 
+		<if test="contract_type_dm !=null and contract_type_dm != '' and contract_type_dm == 01">
+			<include refid="contractSupplierJoins"/>  
+		</if>
+		<if test="contract_type_dm !=null and contract_type_dm != '' and contract_type_dm == 02">
+			<include refid="contractDistributorJoins"/>
+		</if>
+		<if test="contract_type_dm !=null and contract_type_dm != '' and contract_type_dm == 03">
+			<include refid="contractOtherJoins"/>
+		</if>
+		<if test="contract_type_dm ==null and contract_type_dm == ''">
+			WHERE a.contract_no = #{contract_no}
+		</if>
+		<if test="contract_type_dm != null and contract_type_dm != ''">
+			 a.contract_no = #{contract_no}
+		</if>
+	</select>
+	
+	<!-- 合同基本信息 -->
+	<insert id="insert" useGeneratedKeys="true" keyColumn="id">
+		INSERT INTO cmag_contractbserinfo(
+			contract_no,
+			contract_name,
+			firstParty,
+			firstPartyName,
+			secondParty,
+			secondPartyName,
+			qdr,
+			qdrName,
+			qd_date,
+			contract_type_dm,
+			begin_date,
+			end_date,
+			enclosure_id,
+			ss_area,
+			remarks,
+			state_id,
+			user_id,
+			create_user,
+			create_time,
+			modify_user,
+			modify_time,
+			area_id,
+			contract_no_name,
+			history_conNo,
+			mail_address,
+			street_info
+		) VALUES (
+			#{contract_no},
+			#{contract_name},
+			#{firstParty},
+			#{firstPartyName},
+			#{secondParty},
+			#{secondPartyName},
+			#{qdr},
+			#{qdrName},
+			#{qd_date},
+			#{contract_type_dm},
+			#{begin_date},
+			#{end_date},
+			#{enclosure_id},
+			#{ss_area},
+			#{remarks},
+			#{state_id},
+			#{user_id},
+			#{create_user},
+			#{create_time},
+			#{modify_user},
+			#{modify_time},
+			#{area_id},
+			#{contract_no_name},
+			#{history_conNo},
+			#{mail_address},
+			#{street_info}
+		)
+	</insert>
+	
+	<!-- 批量插入-->
+	<insert id="insertList" useGeneratedKeys="true" keyColumn="id" parameterType="java.util.List">
+		INSERT INTO cmag_contractbserinfo(
+			contract_no,
+			contract_name,
+			firstParty,
+			firstPartyName,
+			secondParty,
+			secondPartyName,
+			qdr,
+			qdrName,
+			qd_date,
+			contract_type_dm,
+			begin_date,
+			end_date,
+			enclosure_id,
+			ss_area,
+			remarks,
+			state_id,
+			user_id,
+			create_user,
+			create_time,
+			modify_user,
+			modify_time,
+			area_id,
+			contract_no_name,
+			history_conNo,
+			mail_address,
+			street_info
+		) 
+		VALUES 
+		<foreach collection="list" item="contract" index="index" separator=",">
+			(#{contract.contract_no},
+			#{contract.contract_name},
+			#{contract.firstParty},
+			#{contract.firstPartyName},
+			#{contract.secondParty},
+			#{contract.secondPartyName},
+			#{contract.qdr},
+			#{contract.qdrName},
+			#{contract.qd_date},
+			#{contract.contract_type_dm},
+			#{contract.begin_date},
+			#{contract.end_date},
+			#{contract.enclosure_id},
+			#{contract.ss_area},
+			#{contract.remarks},
+			#{contract.state_id},
+			#{contract.user_id},
+			#{contract.create_user},
+			#{contract.create_time},
+			#{contract.modify_user},
+			#{contract.modify_time},
+			#{contract.area_id},
+			#{contract_no_name},
+			#{history_conNo},
+			#{mail_address},
+			#{street_info})
+		</foreach>
+	</insert>
+	
+	<!-- 分页查询合同信息  当前登录人为跟踪人
+		<if test="conFollow != null and conFollow.createuser_id != null and conFollow.createuser_id != ''">
+			(SELECT contract_no FROM cmag_contracttracking  WHERE createuser_id = #{conFollow.createuser_id})
+		</if>
+	 -->
+	<select id="findList" resultMap="contractResult" parameterType="java.util.HashMap" >
+		SELECT DATE_FORMAT(begin_date,'%Y-%m-%d') AS begin_date,DATE_FORMAT(end_date,'%Y-%m-%d') AS end_date,
+			 <include refid="sqlColumns"></include> FROM (
+		SELECT *  FROM cmag_contractbserinfo WHERE contract_no IN 
+		<if test="conFollow != null and conFollow.user_id != null and conFollow.user_id != ''">
+			(SELECT contract_no FROM cmag_contracttracking  WHERE user_id = #{conFollow.user_id})
+		</if>
+		UNION
+		SELECT * FROM cmag_contractbserinfo	 
+		WHERE create_user = #{create_user})tmp	WHERE 1 = 1  		
+		<if test="contract_name != null and contract_name != ''">
+			AND contract_name LIKE CONCAT('%', #{contract_name}, '%') 
+		</if>
+		<if test="contract_no_name != null and contract_no_name != ''">
+			AND contract_no_name = #{contract_no_name}
+		</if>
+		<if test="history_conNo != null and history_conNo != ''">
+			AND history_conNo = #{history_conNo}
+		</if>
+		<if test="qdrName != null and qdrName != ''">
+			AND qdrName LIKE CONCAT('%', #{qdrName}, '%')
+		</if>
+		<if test="ss_area != null and ss_area != ''">
+			AND ss_area LIKE CONCAT('%', #{ss_area}, '%')
+		</if>
+		<if test="firstParty != null and firstParty != ''">
+			AND firstParty = #{firstParty}
+		</if>
+		<if test="secondParty != null and secondParty != ''">
+			AND secondParty = #{secondParty}
+		</if>
+		<if test="qd_date != null and qd_date != ''">
+			AND qd_date = #{qd_date}
+		</if>
+		<if test="begin_date != null and begin_date != ''">
+			AND begin_date = #{begin_date}
+		</if>
+		<if test="end_date != null and end_date != ''">
+			AND end_date = #{end_date}
+		</if>
+	</select>
+	
+	<!-- 分页查询合同信息  当前登录人创建人 -->
+	<select id="findNewList" resultMap="contractResult">
+		SELECT DATE_FORMAT(begin_date,'%Y-%m-%d') AS begin_date,DATE_FORMAT(end_date,'%Y-%m-%d') AS end_date,
+			 <include refid="sqlColumns"></include>
+		FROM cmag_contractbserinfo 
+		WHERE create_user = #{create_user}		
+		<if test="contract_name != null and contract_name != ''">
+			AND contract_name LIKE CONCAT('%', #{contract_name}, '%') 
+		</if>
+		<if test="contract_no_name != null and contract_no_name != ''">
+			AND contract_no_name = #{contract_no_name}
+		</if>
+		<if test="history_conNo != null and history_conNo != ''">
+			AND history_conNo = #{history_conNo}
+		</if>
+		<if test="qdrName != null and qdrName != ''">
+			AND qdrName LIKE CONCAT('%', #{qdrName}, '%')
+		</if>
+		<if test="ss_area != null and ss_area != ''">
+			AND ss_area LIKE CONCAT('%', #{ss_area}, '%')
+		</if>
+		<if test="firstParty != null and firstParty != ''">
+			AND firstParty = #{firstParty}
+		</if>
+		<if test="secondParty != null and secondParty != ''">
+			AND secondParty = #{secondParty}
+		</if>
+		<if test="qd_date != null and qd_date != ''">
+			AND qd_date = #{qd_date}
+		</if>
+		<if test="begin_date != null and begin_date != ''">
+			AND begin_date = #{begin_date}
+		</if>
+		<if test="end_date != null and end_date != ''">
+			AND end_date = #{end_date}
+		</if>
+	</select>
+	
+	<!-- 分页查询所有合同信息 -->
+	<select id="findAllCon" resultMap="contractResult">
+		SELECT DATE_FORMAT(begin_date,'%Y-%m-%d') AS begin_date,DATE_FORMAT(end_date,'%Y-%m-%d') AS end_date,
+			 <include refid="sqlColumns"></include>
+		FROM cmag_contractbserinfo 
+		WHERE 1 = 1		
+		<if test="contract_name != null and contract_name != ''">
+			AND contract_name LIKE CONCAT('%', #{contract_name}, '%') 
+		</if>
+		<if test="contract_no_name != null and contract_no_name != ''">
+			AND contract_no_name = #{contract_no_name}
+		</if>
+		<if test="qdrName != null and qdrName != ''">
+			AND qdrName LIKE CONCAT('%', #{qdrName}, '%')
+		</if>
+		<if test="ss_area != null and ss_area != ''">
+			AND ss_area LIKE CONCAT('%', #{ss_area}, '%')
+		</if>
+		<if test="firstParty != null and firstParty != ''">
+			AND firstParty = #{firstParty}
+		</if>
+		<if test="secondParty != null and secondParty != ''">
+			AND secondParty = #{secondParty}
+		</if>
+		<if test="qd_date != null and qd_date != ''">
+			AND qd_date = #{qd_date}
+		</if>
+		<if test="begin_date != null and begin_date != ''">
+			AND begin_date = #{begin_date}
+		</if>
+		<if test="end_date != null and end_date != ''">
+			AND end_date = #{end_date}
+		</if>
+	</select>
+	
+	<!-- 查询关联合同信息 -->
+	<select id="findRelationList" resultMap="contractResult" parameterType="java.util.HashMap" >
+		SELECT DATE_FORMAT(begin_date,'%Y-%m-%d') AS begin_date,DATE_FORMAT(end_date,'%Y-%m-%d') AS end_date,
+			 <include refid="sqlColumns"></include> 
+		FROM cmag_contractbserinfo WHERE contract_no IN
+		<if test="relationcontract != null and relationcontract.contract_no != null and relationcontract.contract_no != ''">
+			(SELECT relation_no FROM cmag_relationcontract  WHERE contract_no = #{relationcontract.contract_no})
+		</if>
+	</select>	
+	
+	<select id="findAllList" resultMap="contractResult">
+		SELECT contract_no,contract_name,contract_no_name FROM cmag_contractbserinfo
+	</select>
+	
+	<!-- 获取单条记录 -->
+	<select id="findContract" resultMap="contractResult">
+		SELECT 
+			 <include refid="sqlColumn1"/>
+		FROM cmag_contractbserinfo	 
+		WHERE contract_no = #{contract_no}	 
+	</select>
+	
+	
+	<select id="findConByEnclosureId" parameterType="String" resultMap="contractResult">
+		SELECT 
+			 <include refid="sqlColumn1"/>
+		FROM cmag_contractbserinfo	 
+		WHERE enclosure_id = #{enclosure_id}	 
+	</select>
+	
+	<!-- 根据合同编号统计总数 -->
+	<select id="findCount" resultType="long">
+		SELECT COUNT(1)
+		FROM cmag_contractbserinfo	 
+		WHERE contract_no = #{contract_no}	 
+	</select>
+	
+	<!-- 根据合同编号更新合同信息 -->
+	<update id="updateContractInfo" >
+		UPDATE cmag_contractbserinfo SET
+			firstParty = #{firstParty},
+			firstPartyName = #{firstPartyName},
+			secondParty = #{secondParty},
+			secondPartyName = #{secondPartyName},
+			qdr = #{qdr},
+			qdrName = #{qdrName},
+			qd_date = #{qd_date},
+			contract_type_dm = #{contract_type_dm},
+			begin_date = #{begin_date},
+			end_date = #{end_date},
+			enclosure_id = #{enclosure_id},
+			ss_area = #{ss_area},
+			remarks = #{remarks},
+			state_id = #{state_id},
+			user_id = #{user_id},
+			create_user = #{create_user},
+			create_time = #{create_time},
+			modify_user = #{modify_user},
+			modify_time = #{modify_time},
+			contract_no = #{contract_no},
+			contract_name = #{contract_name},
+			area_id = #{area_id},
+			contract_no_name = #{contract_no_name},
+			mail_address = #{mail_address}
+		WHERE contract_no = #{old_contract_no}
+	</update>
+	
+	<!-- 更新合同状态 -->
+	<update id="updateContractSate">
+		UPDATE cmag_contractbserinfo
+		SET state_id = #{state_id}
+		WHERE contract_no = #{contract_no}
+	</update>
+	
+	<!-- 更新合同提醒状态 remind_state 条件 contract_no-->
+	<update id="updateContractWarnSate">
+		UPDATE cmag_contractbserinfo
+		SET remind_state = #{remind_state}
+		WHERE contract_no = #{contract_no}
+	</update>
+	
+	<!-- 查询所属省份下供应商/分销商 合同编号最大值 -->
+	<select id="findMaxContractNo" resultType="java.lang.String">
+		SELECT MAX(SUBSTRING(RIGHT(contract_no_name,5),1,4)+0) AS contract_no FROM cmag_contractbserinfo 
+		WHERE area_id = #{area_id} and contract_type_dm = #{contract_type_dm} 
+		<if test="contract_type_dm !=null and contract_type_dm != '' and contract_type_dm == 01">
+			AND LEFT(contract_no_name,(LOCATE("-",contract_no_name)-1)) = #{secondPartyName}
+		</if>
+		<if test="contract_type_dm !=null and contract_type_dm != '' and contract_type_dm == 02">
+			AND LEFT(contract_no_name,(LOCATE("-",contract_no_name)-1)) = #{firstPartyName}
+		</if>
+	</select>
+	
+	<!-- 根据合同编号更新合同归档信息  -->
+	<update id="updateArchivedInfo">
+		UPDATE cmag_contractbserinfo
+		SET custodian = #{custodian},
+			receipt_time = #{receipt_time},
+			original_file = #{original_file},
+			copies = #{copies},
+			original_code = #{original_code},
+			scan_version = #{scan_version}
+		WHERE contract_no = #{contract_no}
+	</update>
+	
+	<!--################################################################################# 合同提醒 start#################################################################### -->
+	<!-- CASE a.remind_state WHEN '01'	THEN '未提醒' WHEN '02' THEN '提醒中' END AS remind_state, -->
+	<sql id="warnSql">
+		a.contract_name,
+		a.contract_no,
+		a.contract_no_name,
+		a.firstParty,
+		a.firstPartyName,
+		a.secondParty,
+		a.secondPartyName,
+		a.enclosure_id,
+		a.contract_type_dm,
+		DATE_FORMAT(a.qd_date, '%Y-%m-%d') AS qd_date,
+		remind_state,
+		b.warn_id,
+		DATE_FORMAT(b.remind_time, '%Y-%m-%d') AS remind_time,
+		b.remind_person,
+		b.remind_name,
+		b.remind_content
+	</sql>
+	
+	<sql id="warnJoins">
+		RIGHT JOIN cmag_contractwarn b  ON a.contract_no = b.contract_no
+	</sql>
+	
+	<!-- 分页查询合同提醒列表 -->
+	<select id="findConWarnList" resultMap="contractResult" parameterType="java.util.HashMap" >
+		SELECT 
+			<include refid="warnSql"/>
+		FROM cmag_contractbserinfo a,cmag_contractwarn b	
+		WHERE a.contract_no = b.warn_contractNo
+		<if test="contract_name != null and contract_name != ''">
+			AND contract_name LIKE CONCAT('%', #{contract_name}, '%') 
+		</if>
+		<if test="contract_no_name != null and contract_no_name != ''">
+			AND contract_no_name = #{contract_no_name}
+		</if>
+		<if test="firstParty != null and firstParty != ''">
+			AND firstParty = #{firstParty}
+		</if>
+		<if test="secondParty != null and secondParty != ''">
+			AND secondParty = #{secondParty}
+		</if>
+		<if test="qd_date != null and qd_date != ''">
+			AND qd_date = #{qd_date}
+		</if>
+		<if test="create_user != null and create_user != ''">
+			AND create_user = #{create_user}
+		</if>
+		<if test="conWarn != null and conWarn.remind_person != null and conWarn.remind_person != ''">
+			AND remind_person = #{conWarn.remind_person}
+		</if>	
+		<if test="remind_state != null and remind_state != ''">
+			AND remind_state = #{remind_state}
+		</if>
+		ORDER BY a.id
+	</select>
+	<!--################################################################################# 合同提醒 END#################################################################### -->
+</mapper>

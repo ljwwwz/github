@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.coolshow.jeesite.modules.cmag.newcontract.dao.IVerifyInfoDao">
+
+	<resultMap type="VerifyInfo" id="verifyInfoResult">
+		<result property="contract_no" column="contract_no"/>
+		<result property="contract_name" column="contract_name"/>
+		<result property="info" column="info"/>
+		<result property="verify_person" column="verify_person"/>
+		<result property="verify_date" column="verify_date"/>
+	</resultMap>
+
+	<sql id="sqlColumns">
+		contract_no,
+		contract_name,
+		info,
+		verify_person,
+		verify_date
+	</sql>
+	
+	<!-- 插入 -->
+	<insert id="insert" useGeneratedKeys="true" keyColumn="id">
+		INSERT INTO cmag_verifyinfo(
+			contract_no,
+			contract_name,
+			info,
+			verify_person,
+			verify_date
+		)VALUES(
+			#{contract_no},
+			#{contract_name},
+			#{info},
+			#{verify_person},
+			#{verify_date}
+		)
+	</insert>
+	
+	<!-- 获取单条记录 -->
+	<select id="get" resultMap="verifyInfoResult" useCache="true">
+		SELECT 
+			 <include refid="sqlColumns"/>
+		FROM cmag_verifyinfo
+		<if test="contract_no != null and contract_no != ''">
+			WHERE contract_no = #{contract_no}
+		</if>
+	</select>
+	
+	<!-- 分页查询合同初审信息信息 -->
+	<select id="findList" resultMap="verifyInfoResult">
+		SELECT
+			<include refid="sqlColumns"/>
+		FROM cmag_verifyinfo
+		<if test="contract_no != null and contract_no != ''">
+			WHERE contract_no = #{contract_no}
+		</if>
+	</select>
+	
+</mapper>

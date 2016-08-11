@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.0.xsd"
+       default-lazy-init="false">
+
+    <!-- 添加调度的任务bean 配置对应的class-->
+    <bean id="myPrintSchedule" class="com.coolshow.jeesite.modules.cmag.scheduled.MyPrintSchedule"/>
+    <!--配置调度具体执行的方法-->
+    <bean id="myPrintDetail" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+        <property name="targetObject">
+            <ref bean="myPrintSchedule"/>
+        </property>
+        <property name="targetMethod">
+            <!-- 指定任务方法名称 -->
+            <value>execute</value>
+        </property>
+        <property name="concurrent">
+            <value>false</value>
+        </property>
+    </bean>
+
+    <!--配置调度执行的触发的时间 配置触发器-->
+    <bean id="myPrintTrigger" class="org.springframework.scheduling.quartz.CronTriggerBean">
+        <property name="jobDetail">
+            <!-- 引用任务描述bean -->
+            <ref bean="myPrintDetail"/>
+        </property>
+        <property name="cronExpression">
+            <!-- 每天早上8点执行任务调度0 0 10 * * ? 0/5 * * * * ? -->
+            <value>0 */1 * * * </value>
+        </property>
+    </bean>
+    <!-- quartz的调度工厂 调度工厂只能有一个，多个调度任务在list中添加 -->
+    <bean id="schedulerFactory" class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
+        <property name="triggers">
+            <list>
+                <!-- 所有的调度列表-->
+                <ref bean="myPrintTrigger"/>
+            </list>
+        </property>
+    </bean>
+</beans>

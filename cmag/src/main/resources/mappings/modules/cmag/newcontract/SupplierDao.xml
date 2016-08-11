@@ -1,0 +1,210 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.coolshow.jeesite.modules.cmag.newcontract.dao.ISupplierDao">
+
+	<sql id="sqlColumns">
+		contract_no,
+		supplier_no,
+		supplier_type,
+		scenicspot_name,
+		receipt_account,
+		phone,
+		payment_info,
+		use_system,
+		bail,
+		checking_period,
+		checking_date,
+		payment_date,
+		billing_info,
+		prepaid_balance,
+		rebate,
+		supplier_account,
+		ss_site,
+		rebate_way,
+		create_user,
+		create_time,
+		modify_user,
+		modify_time,
+		supplier_contractor,
+		contractor_phone,
+		supplier_add,
+		account_type,
+		deposit_bank,
+		account_number,
+		account_name,
+		emergency_level,
+		confirm_statement,
+		taxpayer_scale,
+		tariff,
+		bail_state,
+		verify_date
+	</sql>
+	
+	<!-- 供应商合同信息 -->
+	<insert id="insert" useGeneratedKeys="true" keyColumn="id">
+		INSERT INTO cmag_suppliercontractinfo(
+			contract_no,
+			supplier_no,
+			supplier_type,
+			scenicspot_name,
+			receipt_account,
+			phone,
+			payment_info,
+			use_system,
+			bail,
+			checking_period,
+			checking_date,
+			payment_date,
+			billing_info,
+			prepaid_balance,
+			rebate,
+			supplier_account,
+			ss_site,
+			rebate_way,
+			create_user,
+			create_time,
+			modify_user,
+			modify_time,
+			supplier_contractor,
+			contractor_phone,
+			supplier_add,
+			account_type,
+			deposit_bank,
+			account_number,
+			account_name,
+			emergency_level,
+			confirm_statement,
+			taxpayer_scale,
+			tariff,
+			bail_state,
+			verify_date
+		) VALUES (
+			#{contract_no},
+			#{supplier_no},
+			#{supplier_type},
+			#{scenicspot_name},
+			#{receipt_account},
+			#{phone},
+			#{payment_info},
+			#{use_system},
+			#{bail},
+			#{checking_period},
+			#{checking_date},
+			#{payment_date},
+			#{billing_info},
+			#{prepaid_balance},
+			#{rebate},
+			#{supplier_account},
+			#{ss_site},
+			#{rebate_way},
+			#{create_user},
+			#{create_time},
+			#{modify_user},
+			#{modify_time},
+			#{supplier_contractor},
+			#{contractor_phone},
+			#{supplier_add},
+			#{account_type},
+			#{deposit_bank},
+			#{account_number},
+			#{account_name},
+			#{emergency_level},
+			#{confirm_statement},
+			#{taxpayer_scale},
+			#{tariff},
+			#{bail_state},
+			#{verify_date}
+		)
+	</insert>
+	
+	<!-- 批量插入-->
+	<insert id="insertList" useGeneratedKeys="true" keyColumn="id" parameterType="java.util.List">
+		INSERT INTO cmag_suppliercontractinfo(<include refid="sqlColumns"/>) VALUES 
+		<foreach collection="list" item="supplier" index="index" separator=",">
+			(#{supplier.contract_no},
+			#{supplier.supplier_no},
+			#{supplier.supplier_type},
+			#{supplier.scenicspot_name},
+			#{supplier.receipt_account},
+			#{supplier.phone},
+			#{supplier.payment_info},
+			#{supplier.use_system},
+			#{supplier.bail},
+			#{supplier.checking_period},
+			#{supplier.checking_date},
+			#{supplier.payment_date},
+			#{supplier.billing_info},
+			#{supplier.prepaid_balance},
+			#{supplier.rebate},
+			#{supplier.supplier_account},
+			#{supplier.ss_site},
+			#{supplier.rebate_way},
+			#{supplier.create_user},
+			#{supplier.create_time},
+			#{supplier.modify_user},
+			#{supplier.modify_time},
+			#{supplier.supplier_contractor},
+			#{supplier.contractor_phone},
+			#{supplier.supplier_add},
+			#{supplier.account_type},
+			#{supplier.deposit_bank},
+			#{supplier.account_number},
+			#{supplier.account_name},
+			#{supplier.emergency_level},
+			#{supplier.confirm_statement},
+			#{supplier.taxpayer_scale},
+			#{supplier.tariff},
+			#{supplier.bail_state},
+			#{supplier.verify_date})
+		</foreach>
+	</insert>
+	
+	<!-- 根据合同编号查询合同信息 -->
+	<select id="findSupplier" resultType="Supplier">
+		SELECT 
+			 <include refid="sqlColumns"/>
+		FROM cmag_suppliercontractinfo
+		WHERE contract_no = #{contract_no}	 
+	</select>
+	
+	<!-- 根据合同编号更新供应商合同信息 -->
+	<update id="updateSupplier" flushCache="true">
+		UPDATE cmag_suppliercontractinfo SET
+			supplier_type = #{supplier_type},
+			scenicspot_name = #{scenicspot_name},
+			receipt_account = #{receipt_account},
+			phone = #{phone},
+			payment_info = #{payment_info},
+			use_system = #{use_system},
+			bail = #{bail},
+			checking_period = #{checking_period},
+			checking_date = #{checking_date},
+			payment_date = #{payment_date},
+			billing_info = #{billing_info},
+			prepaid_balance = #{prepaid_balance},
+			rebate = #{rebate},
+			supplier_account = #{supplier_account},
+			ss_site = #{ss_site},
+			rebate_way = #{rebate_way},
+			create_user = #{create_user},
+			create_time = #{create_time},
+			modify_user = #{modify_user},
+			modify_time = #{modify_time},
+			contract_no = #{contract_no},
+			supplier_contractor = #{supplier_contractor},
+			contractor_phone = #{contractor_phone},
+			supplier_add = #{supplier_add},
+			account_type = #{account_type},
+			deposit_bank = #{deposit_bank},
+			account_number = #{account_number},
+			account_name = #{account_name},
+			emergency_level = #{emergency_level},
+			confirm_statement = #{confirm_statement},
+			taxpayer_scale = #{taxpayer_scale},
+			tariff = #{tariff},
+			bail_state = #{bail_state},
+			verify_date = #{verify_date}	
+		WHERE contract_no =  #{old_contract_no}		
+	</update>
+	
+</mapper>

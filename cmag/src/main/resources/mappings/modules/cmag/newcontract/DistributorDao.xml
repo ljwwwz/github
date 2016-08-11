@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.coolshow.jeesite.modules.cmag.newcontract.dao.IDistributorDao">
+
+	<sql id="sqlColumns">
+		contract_no,
+		distributor_no,
+		level,
+		bail,
+		year_quantity,
+		settlement_way,
+		coolshow_account,
+		distributor_contractor,
+		phone,
+		payment_way,
+		payment_date,
+		checking_period,
+		use_system,
+		checking_date,
+		billing_info,
+		prepaid_balance,
+		rebate,
+		ss_site,
+		rebate_way,
+		distributor_account,
+		deposit_bank,
+		account_number,
+		account_name,
+		create_user,
+		create_time,
+		modify_user,
+		modify_time,
+		protocol_type,
+		advance
+	</sql>
+
+	<!-- 分销商合同信息 -->
+	<insert id="insert" useGeneratedKeys="true" keyColumn="id">
+		INSERT INTO cmag_distributorcontractinfo(
+			contract_no,
+			distributor_no,
+			level,
+			bail,
+			year_quantity,
+			settlement_way,
+			coolshow_account,
+			distributor_contractor,
+			phone,
+			payment_way,
+			payment_date,
+			checking_period,
+			use_system,
+			checking_date,
+			billing_info,
+			prepaid_balance,
+			rebate,
+			ss_site,
+			rebate_way,
+			distributor_account,
+			deposit_bank,
+			account_number,
+			account_name,
+			create_user,
+			create_time,
+			modify_user,
+			modify_time,
+			protocol_type,
+			advance
+		) VALUES (
+			#{contract_no},
+			#{distributor_no},
+			#{level},
+			#{bail},
+			#{year_quantity},
+			#{settlement_way},
+			#{coolshow_account},
+			#{distributor_contractor},
+			#{phone},
+			#{payment_way},
+			#{payment_date},
+			#{checking_period},
+			#{use_system},
+			#{checking_date},
+			#{billing_info},
+			#{prepaid_balance},
+			#{rebate},
+			#{ss_site},
+			#{rebate_way},
+			#{distributor_account},
+			#{deposit_bank},
+			#{account_number},
+			#{account_name},
+			#{create_user},
+			#{create_time},
+			#{modify_user},
+			#{modify_time},
+			#{protocol_type},
+			#{advance}
+		)
+	</insert>
+	
+	<!-- 批量插入-->
+	<insert id="insertList" useGeneratedKeys="true" keyColumn="id" parameterType="java.util.List">
+		INSERT INTO cmag_distributorcontractinfo(<include refid="sqlColumns"/>) 
+		VALUES 
+		<foreach collection="list" item="distributor" index="index" separator=",">
+			(#{distributor.contract_no},
+			#{distributor.distributor_no},
+			#{distributor.level},
+			#{distributor.bail},
+			#{distributor.year_quantity},
+			#{distributor.settlement_way},
+			#{distributor.coolshow_account},
+			#{distributor.distributor_contractor},
+			#{distributor.phone},
+			#{distributor.payment_way},
+			#{distributor.payment_date},
+			#{distributor.checking_period},
+			#{distributor.use_system},
+			#{distributor.checking_date},
+			#{distributor.billing_info},
+			#{distributor.prepaid_balance},
+			#{distributor.rebate},
+			#{distributor.ss_site},
+			#{distributor.rebate_way},
+			#{distributor.distributor_account},
+			#{distributor.deposit_bank},
+			#{distributor.account_number},
+			#{distributor.account_name},
+			#{distributor.create_user},
+			#{distributor.create_time},
+			#{distributor.modify_user},
+			#{distributor.modify_time},
+			#{distributor.protocol_type},
+			#{distributor.advance})
+		</foreach>
+	</insert>
+	
+	<!-- 获取单条记录 -->
+	<select id="get" resultType="Distributor">
+		SELECT 
+			 <include refid="sqlColumns"/>
+		FROM cmag_distributorcontractinfo 
+		WHERE contract_no =  #{contract_no}	 
+	</select>
+	
+	<!-- 根据合同编号更新分销商合同信息 -->
+	<update id="updateDistributor">
+		UPDATE cmag_distributorcontractinfo SET
+			level = #{level},
+			bail = #{bail},
+			year_quantity = #{year_quantity},
+			settlement_way = #{settlement_way},
+			coolshow_account = #{coolshow_account},
+			distributor_contractor = #{distributor_contractor},
+			phone = #{phone},
+			payment_way = #{payment_way},
+			payment_date = #{payment_date},
+			checking_period = #{checking_period},
+			use_system = #{use_system},
+			checking_date = #{checking_date},
+			billing_info = #{billing_info},
+			prepaid_balance = #{prepaid_balance},
+			rebate = #{rebate},
+			ss_site = #{ss_site},
+			rebate_way = #{rebate_way},
+			create_user = #{create_user},
+			create_time = #{create_time},
+			modify_user = #{modify_user},
+			modify_time = #{modify_time},
+			distributor_account = #{distributor_account},
+			contract_no = #{contract_no},
+			deposit_bank = #{deposit_bank},
+			account_number = #{account_number},
+			account_name = #{account_name},
+			protocol_type = #{protocol_type},
+			advance = #{advance}	
+		WHERE contract_no =  #{old_contract_no}		
+	</update>
+</mapper>

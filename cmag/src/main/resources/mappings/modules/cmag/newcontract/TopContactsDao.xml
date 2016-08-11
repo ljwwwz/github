@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.coolshow.jeesite.modules.cmag.newcontract.dao.ITopContactsDao">
+
+	<resultMap type="TopContract" id="topContractsResult">
+		<result property="user_id" column="user_id"/>
+		<result property="second_id" column="second_id"/>
+	</resultMap>
+	
+	<sql id="sqlColumns">
+		user_id,
+		second_id
+	</sql>
+	
+	<!-- 查询常用联系人列表 -->
+	<select id="findList" resultMap="topContractsResult">
+		SELECT 
+			<include refid="sqlColumns"/>
+		FROM cmag_systemsontractuser
+		<if test="user_id != null and user_id != ''">
+			WHERE user_id = #{user_id}
+		</if>	
+	</select>
+	
+	<!-- 插入常用联系人 -->
+	<insert id="insTopCon" useGeneratedKeys="true" keyColumn="id" parameterType="java.util.List">
+		INSERT INTO cmag_systemsontractuser(
+			user_id ,
+			second_id
+		)VALUES
+		<foreach collection="list" item="topContract" index="index" separator=",">
+			(#{topContract.user_id},#{topContract.second_id})
+		</foreach>
+	</insert>
+	<!-- 将常用联系人插入履行跟踪表 -->
+	<insert id="topConInsTrac" useGeneratedKeys="true" keyColumn="id" parameterType="java.util.List">	
+		INSERT INTO cmag_contracttracking(
+			createuser_id ,
+			user_id ,
+			contract_no
+		)VALUES
+		<foreach collection="list" item="conFollow" index="index" separator=",">
+			(#{conFollow.createuser_id},#{conFollow.user_id},#{conFollow.contract_no})
+		</foreach>		
+	</insert> 
+	<!-- 删除常用联系人 -->
+	<delete id="delTopCon" parameterType="java.util.List">
+		DELETE FROM cmag_systemsontractuser WHERE second_id IN
+		<foreach collection="list" item="topContract"  index="index" open="(" separator="," close=")">
+			#{topContract.second_id} 
+		</foreach>
+		AND user_id = #{topContract.user_id}
+	</delete>
+</mapper>

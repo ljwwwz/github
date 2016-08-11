@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.coolshow.jeesite.modules.cmag.conWarn.dao.IConWarnDao">
+
+	<resultMap type="ContractWarn" id="conWarnResult">
+		<result property="warn_id" column="warn_id" javaType="String" jdbcType="INTEGER"/>
+		<result property="warn_contractNo" column="warn_contractNo"/>
+		<result property="remind_time" column="remind_time"/>
+		<result property="remind_content" column="remind_content"/>
+		<result property="remind_person" column="remind_person"/>
+		<result property="remind_name" column="remind_name"/>
+		<result property="mail_state" column="mail_state"/>
+	</resultMap>
+	
+	<sql id="sqlColumns">
+		warn_id,
+		warn_contractNo,
+		remind_time,
+		remind_content,
+		remind_person,
+		remind_name,
+		mail_state
+	</sql>
+	
+	<!-- 查询记录列表   查询条件 warn_contractNo-->
+	<select id="get" resultMap="conWarnResult">
+		SELECT 
+			 <include refid="sqlColumns"/>
+		FROM cmag_contractwarn
+		WHERE warn_id = #{warn_id}	 
+	</select>
+	
+	<!-- 查询记录列表-->
+	<select id="findAllListNoWhere" resultMap="conWarnResult">
+		SELECT 
+			 <include refid="sqlColumns"/>
+		FROM cmag_contractwarn
+	</select>
+	
+	<!-- 合同提醒 批量插入-->
+	<insert id="insertList" useGeneratedKeys="true" keyColumn="warn_id" parameterType="java.util.List">
+		INSERT INTO cmag_contractwarn( warn_contractNo, remind_content,remind_time,remind_person,remind_name ) 
+		VALUES 
+		<foreach collection="list" item="conWarn" index="index" separator=",">
+			(#{conWarn.warn_contractNo},#{conWarn.remind_content},#{conWarn.remind_time},#{conWarn.remind_person},#{conWarn.remind_name})
+		</foreach>
+	</insert>
+	
+	<!-- 插入 -->
+	<insert id="insert" useGeneratedKeys="true" keyColumn="warn_id">
+		INSERT INTO cmag_contractwarn(
+			warn_contractNo,
+			remind_time,
+			remind_content,
+			remind_person,
+			remind_name
+		) VALUES (
+			#{warn_contractNo},
+			#{remind_time},
+			#{remind_content},
+			#{remind_person},
+			#{remind_name}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE cmag_contractwarn
+		SET remind_time = #{remind_time},
+			remind_content = #{remind_content},
+			remind_person = #{remind_person},
+			remind_name = #{remind_name}
+		WHERE warn_id=#{warn_id}	
+	</update>
+	
+	<update id="updateState">
+		UPDATE cmag_contractwarn SET mail_state = #{mail_state} WHERE warn_id=#{warn_id}	
+	</update>
+	
+	<!-- 物理删除 -->
+	<delete id="delete">
+		DELETE FROM cmag_contractwarn WHERE warn_id=#{warn_id}
+	</delete>
+	
+	<!-- 根据提醒人id查询该提醒人是否是提醒人 -->
+	<select id="findCount" resultType="long">
+		SELECT COUNT(1) 
+		FROM cmag_contractwarn
+		WHERE remind_person = #{remind_person}
+	</select>
+</mapper>

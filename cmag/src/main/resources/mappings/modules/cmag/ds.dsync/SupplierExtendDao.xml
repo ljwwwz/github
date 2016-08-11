@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.coolshow.jeesite.modules.cmag.ds.dsync.dao.SupplierExtendDao">	
+	
+    <sql id="SupplierColumns">
+    	a.supplier_no,
+		a.name,	
+		a.supplier_account,	
+		a.del_flag   	
+    </sql>
+   
+	<select id="get" resultType="SimpleSupplier">
+		SELECT supplier_no FROM cmag_supplierbaseinfo WHERE supplier_no = #{ksCode} and del_flag = 0
+	</select>
+	
+	 <select id="findCmagDcByName" resultType="SimpleSupplier">
+		SELECT <include refid="SupplierColumns"/>
+		 FROM cmag_supplierbaseinfo a WHERE a.name = #{name}		
+	</select> 
+	
+	<insert id="insert">
+		INSERT INTO cmag_supplierbaseinfo(		
+			supplier_no, 			
+			name, 	
+			supplier_account,												
+			del_flag
+		) VALUES (
+			#{supplierNo}, 			
+			#{name}, 
+			#{supplierAccount},			 			
+			#{delFlag}
+		)
+	</insert>
+		
+	<update id="update">
+		UPDATE cmag_supplierbaseinfo SET 			 
+			name = #{name}								
+		WHERE supplier_no = #{supplierNo}
+	</update>
+		
+	<update id="delete">
+		UPDATE cmag_supplierbaseinfo SET 
+			del_flag = 1
+		WHERE supplier_no = #{supplierNo}
+	</update>
+	
+
+	
+</mapper>

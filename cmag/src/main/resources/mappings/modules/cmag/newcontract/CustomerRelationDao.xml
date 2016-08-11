@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.coolshow.jeesite.modules.cmag.newcontract.dao.ICustomerRelationDao">
+
+	<resultMap type="CustomerRelation" id="customerRelationResult">
+		<result property="contract_no" column="contract_no"/>
+		<result property="qdf_no" column="qdf_no"/>
+		<result property="flag" column="flag"/>
+		<result property="qdf_flag" column="qdf_flag"/>
+	</resultMap>
+	
+	<sql id="sqlColumns">
+		contract_no,
+		qdf_no,
+		flag,
+		qdf_flag
+	</sql>
+	
+	<!-- 批量插入-->
+	<insert id="insertList" useGeneratedKeys="true" keyColumn="id" parameterType="java.util.List">
+		INSERT INTO cmag_customesigningparty(<include refid="sqlColumns"/>) 
+		VALUES 
+		<foreach collection="list" item="customerRelatio" index="index" separator=",">
+			(#{customerRelatio.contract_no},#{customerRelatio.qdf_no},#{customerRelatio.flag},#{customerRelatio.qdf_flag})
+		</foreach>
+	</insert>
+	
+</mapper>

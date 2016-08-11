@@ -1,0 +1,2 @@
+ <script src="${ctxStatic}/bootstrap/addTabs/theme/js/bootstrap-exttabs.js" type="text/javascript"></script>
+ <link href="${ctxStatic}/bootstrap/addTabs/theme/css/bootstrap-exttabs.css" type="text/css" rel="stylesheet" />

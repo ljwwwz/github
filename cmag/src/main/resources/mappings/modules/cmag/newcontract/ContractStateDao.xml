@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.coolshow.jeesite.modules.cmag.newcontract.dao.IContractStateDao">
+	
+	<resultMap  id="resultMap" type="com.coolshow.jeesite.modules.cmag.newcontract.entity.ContractState">
+		<result column="state_dm" property="state_dm"/>
+		<result column="state_name" property="state_name"/>
+	</resultMap>
+	
+	<sql id="columnsContainsId">
+		id,
+		state_dm,
+		state_name,
+		next,
+		prev
+	</sql>
+	<sql id="columnsWithoutId">
+		state_dm,
+		state_name,
+		next,
+		prev
+	</sql>
+	
+	<select id="getContractStateByState_dm" resultMap="resultMap">
+		select 
+		<include refid="columnsWithoutId"/>
+		from cmag_contractstatedm c 
+		where c.state_dm=#{state_dm}
+	</select>
+	
+	
+	<select id="getAllContractState" resultMap="resultMap">
+		select 
+		<include refid="columnsWithoutId"/>
+		from cmag_contractstatedm
+	</select>
+
+</mapper>

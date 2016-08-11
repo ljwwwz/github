@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.coolshow.jeesite.modules.cmag.newcontract.dao.IRelationConDao">
+
+	<resultMap type="RelationContract" id="relationConResult">
+		<result property="contract_no" column="contract_no"/>
+		<result property="relation_no" column="relation_no"/>
+	</resultMap>
+	
+	<sql id="sqlColumns">
+		contract_no,
+		relation_no
+	</sql>
+	
+	<!-- 批量插入-->
+	<insert id="insertList" useGeneratedKeys="true" keyColumn="id" parameterType="java.util.List">
+		INSERT INTO cmag_relationcontract( contract_no,relation_no) 
+		VALUES 
+		<foreach collection="list" item="realationCon" index="index" separator=",">
+			(#{realationCon.contract_no},#{realationCon.relation_no})
+		</foreach>
+	</insert>
+	
+	<!-- 插入-->
+	<insert id="insert" useGeneratedKeys="true" keyColumn="id">
+		INSERT INTO cmag_relationcontract( contract_no,relation_no) 
+		VALUES (
+			#{contract_no},
+			#{relation_no}
+		)
+	</insert>
+	
+	<select id="getCount" resultType="long">
+		SELECT COUNT(1)
+		FROM cmag_relationcontract
+		<if test="contract_no != null and contract_no != ''">
+			WHERE contract_no = #{contract_no}
+		</if>
+	</select>
+	
+	<!-- 查询记录列表 -->
+	<select id="findAllList" resultMap="relationConResult">
+		SELECT 
+			 <include refid="sqlColumns"/>
+		FROM cmag_relationcontract
+		<if test="contract_no != null and contract_no != ''">
+			WHERE contract_no = #{contract_no}
+		</if>
+	</select>
+	
+	<!-- 删除关联合同信息 -->
+	<delete id="del">
+		DELETE FROM cmag_relationcontract
+		WHERE contract_no = #{contract_no}
+	</delete>
+</mapper>

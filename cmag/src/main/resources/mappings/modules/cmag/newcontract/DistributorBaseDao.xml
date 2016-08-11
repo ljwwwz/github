@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.coolshow.jeesite.modules.cmag.newcontract.dao.IDistributorBaseDao">
+
+	<resultMap type="DistributorBase" id="disBaseResult">
+		<result property="id" column="id" javaType="String" jdbcType="INTEGER"/>
+		<result property="name" column="name"/>
+		<result property="create_time" column="create_time"/>
+		<result property="modify_time" column="modify_time"/>
+	</resultMap>
+
+	<sql id="sqlColumns">
+		id,
+		name,
+		contract_no,
+		distributor_no,
+		level,
+		bail,
+		year_quantity,
+		settlement_way,
+		coolshow_account,
+		distributor_contractor,
+		phone,
+		payment_way,
+		payment_date,
+		checking_period,
+		use_system,
+		checking_date,
+		billing_info,
+		prepaid_balance,
+		rebate,
+		ss_site,
+		rebate_way,
+		create_user,
+		create_time,
+		modify_user,
+		modify_time,
+		name,
+		del_flag
+	</sql>
+	
+	<!-- 查询单条记录 -->
+	<select id="get" resultMap="disBaseResult" useCache="true">
+		SELECT name FROM cmag_distributorbaseinfo  WHERE id = #{id}
+	</select>
+	
+	<!-- 分页查询 -->
+	<select id="findList" resultMap="disBaseResult" useCache="true">
+		SELECT id,name,create_time,modify_time FROM cmag_distributorbaseinfo
+		WHERE 1 = 1 AND del_flag = '0'
+		<if test="name != null and name != ''">
+			AND name LIKE CONCAT('%', #{name}, '%')
+		</if>
+	</select>
+	
+	<!-- 分页查询  limit-->
+	<select id="findListLimit" resultMap="disBaseResult" useCache="true">
+		SELECT id,name,create_time,modify_time FROM cmag_distributorbaseinfo
+		WHERE 1 = 1 AND del_flag = '0'
+		<if test="distributorBase.name != null and distributorBase.name != ''">
+			AND name LIKE CONCAT('%', #{distributorBase.name}, '%')
+		</if>
+			<!-- limit #{start},#{limit} -->
+	</select>
+	
+	<!-- 查询后七位最大客商编码 -->
+	<select id="findMax" resultType="java.lang.String">
+		SELECT MAX(SUBSTRING(distributor_no,3,LENGTH(distributor_no))+0) AS distributor_no from cmag_distributorbaseinfo
+	</select>
+	
+	<!-- 新增分销商客商信息 -->
+	<insert id="saveInfo" useGeneratedKeys="true" keyColumn="id">
+		INSERT INTO cmag_distributorbaseinfo(
+		name,
+		distributor_no,
+		del_flag,
+		create_user,
+		create_time)
+		VALUES(
+		#{name},
+		#{distributor_no},
+		#{del_flag},
+		#{create_user},
+		#{create_time}
+		)
+	</insert>
+	
+	<!-- 更新分销商基本信息 -->
+	<update id="updateDisBase">
+		UPDATE cmag_distributorbaseinfo SET 
+			name = #{name},
+			modify_time = #{modify_time},
+			modify_user = #{modify_user}
+		WHERE id = #{id}
+	</update>
+	
+	<!-- 逻辑删除分销商基本信息 -->
+	<update id="delDisBase">
+		UPDATE cmag_distributorbaseinfo SET 
+			del_flag = #{del_flag},
+			modify_time = #{modify_time},
+			modify_user = #{modify_user}
+		WHERE id = #{id}
+	</update>
+</mapper>

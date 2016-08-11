@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.coolshow.jeesite.modules.cmag.util.dao.IDmTypeUtilsDAO">
+    
+	<sql id="listToolColumns">
+		id,
+		name,
+		parent_id,
+		parent_ids 
+	</sql>
+	
+	<select id="findByTypeList" resultType="ListTool">
+		SELECT
+		      <include refid="listToolColumns"/>
+		FROM sys_user
+		WHERE user_type = #{user_type} 
+	</select>	
+	
+	<select id="findByTypeOfficeList" resultType="ListTool">
+		SELECT
+		      <include refid="listToolColumns"/>
+		FROM sys_office
+		WHERE type = '2' AND del_flag = '0' AND LENGTH(id)=6 AND id NOT IN('900018','900024','900046')
+	</select>
+	
+</mapper>

@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.coolshow.jeesite.modules.cmag.newcontract.dao.IConFollowDao">
+
+	<resultMap type="ConFollow" id="conFollowResult">
+		<result property="contract_no" column="contract_no"/>
+		<result property="user_id" column="user_id"/>
+		<result property="createuser_id" column="createuser_id"/>
+	</resultMap>
+	
+	<sql id="sqlColumns">
+		user_id,
+		contract_no,
+		createuser_id
+	</sql>
+	
+	<!-- 合同跟踪人 批量插入-->
+	<insert id="insertList" useGeneratedKeys="true" keyColumn="id" parameterType="java.util.List">
+		INSERT INTO cmag_contracttracking( user_id, contract_no,createuser_id ) 
+		VALUES 
+		<foreach collection="list" item="conFollow" index="index" separator=",">
+			(#{conFollow.user_id},#{conFollow.contract_no},#{conFollow.createuser_id})
+		</foreach>
+	</insert>
+	
+	<!-- 批量删除合同跟踪人 -->
+	<delete id="delList" parameterType="java.util.List">
+		DELETE FROM cmag_contracttracking WHERE user_id IN
+		<foreach collection="list" item="conFollow"  index="index" open="(" separator="," close=")">
+			#{conFollow.user_id} 
+		</foreach>
+		AND createuser_id = #{conFollow.createuser_id}
+	</delete>
+	
+	<!-- 批量更新合同跟踪人 -->
+	<update id="updateList" parameterType="java.util.Map">
+		UPDATE cmag_contracttracking set contract_no = #{contract_no}  WHERE user_id IN
+		<foreach collection="map" item="conFollow"  index="index" open="(" separator="," close=")">
+			  #{conFollow.user_id}
+		</foreach>
+		AND contract_no = ''
+	</update>
+	
+	<!-- 更新单条记录 -->
+	<update id="update">
+		UPDATE cmag_contracttracking
+		SET contract_no = #{contract_no}
+		WHERE user_id = #{user_id} AND createuser_id = #{createuser_id} AND contract_no = ''
+	</update>
+	
+	<!-- 根据合同创建人id查询记录总数 -->
+	<select id="findCowFollowCount" resultType="long">
+		SELECT COUNT(1)
+		FROM cmag_contracttracking
+		<if test="createuser_id != null and createuser_id != ''">
+			WHERE createuser_id = #{createuser_id}
+		</if>
+		<if test="user_id != null and user_id != ''">
+			WHERE user_id = #{user_id}
+		</if>
+	</select>
+	
+	<!-- 查询记录列表 -->
+	<select id="findAllList" resultMap="conFollowResult">
+		SELECT 
+			 <include refid="sqlColumns"/>
+		FROM cmag_contracttracking
+		WHERE contract_no = #{contract_no}	 
+	</select>
+	
+	<!-- 根据合同编号删除履行跟踪人 -->
+	<delete id="delByConNo">
+		DELETE FROM cmag_contracttracking 
+		WHERE contract_no = #{contract_no}
+	</delete>
+	
+	<!-- 编辑操作查询履行跟踪表是否已存在记录 -->
+	<select id="findRecord" resultType="long">
+		SELECT COUNT(1) 
+		FROM cmag_contracttracking
+		WHERE contract_no = #{contract_no} AND user_id = #{user_id}
+	</select>
+</mapper>

@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.coolshow.jeesite.modules.cmag.ds.dsync.dao.DistributorExtendDao">	
+	
+    <sql id="distributorColumns">
+    	a.distributor_no,
+		a.name,	
+		a.distributor_account,
+		a.del_flag    	
+    </sql>
+   
+	<select id="get" resultType="SimpleDistributor">
+		SELECT  distributor_no FROM cmag_distributorbaseinfo WHERE distributor_no = #{ksCode} and del_flag = 0
+	</select>
+
+   <select id="findCmagDcByName" resultType="SimpleDistributor">
+		SELECT <include refid="distributorColumns"/>
+		 FROM cmag_distributorcontractinfo a WHERE a.name = #{name}		
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO cmag_distributorbaseinfo(		
+			distributor_no, 			
+			name, 	
+			distributor_account,												
+			del_flag
+		) VALUES (
+			#{distributorNo}, 			
+			#{name}, 
+			#{distributorAccount},			 			
+			#{delFlag}
+		)
+	</insert>	
+	
+	<update id="update">
+		UPDATE cmag_distributorbaseinfo SET 			 
+			name = #{name}								
+		WHERE distributor_no = #{distributorNo}
+	</update>
+		
+	<update id="delete">
+		UPDATE cmag_distributorbaseinfo SET 
+			del_flag = 1
+		WHERE distributor_no = #{distributorNo}
+	</update>
+	
+
+	
+</mapper>

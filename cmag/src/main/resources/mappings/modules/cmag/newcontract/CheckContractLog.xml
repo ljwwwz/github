@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.coolshow.jeesite.modules.cmag.newcontract.dao.ICheckContractLogDao">
+	<resultMap type="com.coolshow.jeesite.modules.cmag.newcontract.entity.CheckContractLog" id="resultMap">
+		<result column="uuid" property="uuid"/>
+		<result column="url" property="url"/>
+		<result column="loginName" property="loginName"/>
+		<result column="name" property="name"/>
+		<result column="args" property="args"/>
+		<result column="result" property="result"/>
+		<result column="time" property="time"/>
+		<result column="contract_name" property="contract_name"/>
+		<result column="contract_no" property="contract_no"/>
+	</resultMap>
+	
+	
+	
+	<sql id="columns">
+		uuid,
+		url,
+		loginName,
+		name,
+		args,
+		result,
+		time,
+		contract_name,
+		contract_no
+	</sql>
+	
+	<select resultMap="resultMap" id="getByUuid" parameterType="String">
+		select 
+		<include refid="columns"/> 
+		from cmag_checkcontractlog c
+		where c.uuid=#{uuid}
+	</select>
+	
+	<select resultMap="resultMap" id="get" parameterType="com.coolshow.jeesite.modules.cmag.newcontract.entity.CheckContractLog">
+		select 
+		<include refid="columns"/> 
+		from cmag_checkcontractlog c
+		where c.id=#{id}
+	</select>
+	
+	
+	
+	<select resultMap="resultMap" id="get1" parameterType="String">
+		select 
+		<include refid="columns"/> 
+		from cmag_checkcontractlog c
+		where c.id=#{id}
+	</select>
+	
+	
+	
+	<select resultMap="resultMap" id="findList" parameterType="com.coolshow.jeesite.modules.cmag.newcontract.entity.CheckContractLog">
+		select 
+		<include refid="columns"/>
+		from cmag_checkcontractlog
+	</select>
+	
+	<select resultMap="resultMap" id="findAllList" parameterType="com.coolshow.jeesite.modules.cmag.newcontract.entity.CheckContractLog">
+		select 
+		<include refid="columns"/> 
+		from cmag_checkcontractlog
+	</select>
+	
+	<select resultMap="resultMap" id="getAllEntity">
+		select 
+		<include refid="columns"/> 
+		from cmag_checkcontractlog
+	</select>
+	
+	
+	<select resultMap="resultMap" id="getAllEntityBYContractNo" parameterType="String">
+		select 
+		<include refid="columns"/> 
+		from cmag_checkcontractlog c 
+		where c.contract_no = #{contract_no} order by time desc
+	</select>
+	<select resultMap="resultMap" id="findAllList1">
+		select 
+		<include refid="columns"/> 
+		from cmag_checkcontractlog order by time desc
+	</select>
+	
+	
+	<insert id="insert" parameterType="com.coolshow.jeesite.modules.cmag.newcontract.entity.CheckContractLog">
+		insert into cmag_checkcontractlog (<include refid="columns"/>)
+		values
+		(
+		#{uuid},
+		#{url},
+		#{loginName},
+		#{name},
+		#{args},
+		#{result},
+		#{time},
+		#{contract_name},
+		#{contract_no}
+		)
+	</insert>
+	
+	<update id="update" parameterType="com.coolshow.jeesite.modules.cmag.newcontract.entity.CheckContractLog">
+		update cmag_checkcontractlog set 
+		uuid=#{uuid},
+		url=#{url},
+		loginName=#{loginName},
+		name=#{name},
+		args=#{args},
+		result=#{result},
+		time=#{time}
+	</update>
+	
+	<delete id="delete" parameterType="String">
+		delete from cmag_checkcontractlog c where c.id=#{id} 
+	</delete>
+	
+	<delete id="delete1" parameterType="com.coolshow.jeesite.modules.cmag.newcontract.entity.CheckContractLog">
+		delete from cmag_checkcontractlog c where c.id=#{id} 
+	</delete>
+</mapper>

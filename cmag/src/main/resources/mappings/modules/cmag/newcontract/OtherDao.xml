@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.coolshow.jeesite.modules.cmag.newcontract.dao.IOtherDao">
+
+	<resultMap type="Other" id="otherResult">
+		<result property="code" column="code"/>
+		<result property="name" column="name"/>
+		<result property="contract_no" column="contract_no"/>
+	</resultMap>
+	
+	<sql id="sqlColumns">
+		name,
+		code,
+		contract_no
+	</sql>
+	
+	<!-- 查询单条记录 -->
+	<select id="get" resultMap="otherResult" useCache="true">
+		SELECT name FROM cmag_otherbaseinfo  WHERE code = #{code}
+	</select>
+	
+	<!-- 插入其他合同信息 -->
+	<insert id="insert" useGeneratedKeys="true" keyColumn="id">
+		INSERT INTO cmag_otherbaseinfo(
+			name,
+			code,
+			contract_no
+		) VALUES (
+			#{name},
+			#{code},
+			#{contract_no}
+			)
+	</insert>
+	
+	<!-- 更新其他合同信息 -->
+	<update id="update">
+		UPDATE cmag_otherbaseinfo SET
+			name = #{name},
+			code = #{code},
+			contract_no = #{contract_no}	
+		WHERE contract_no =  #{old_contract_no}	
+	</update>
+	
+	<!-- 查询其他信息列表 -->
+	<select id="findList" resultType="Other" useCache="true">
+		SELECT code,name FROM cmag_otherbaseinfo	
+	</select>
+</mapper>
